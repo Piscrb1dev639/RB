@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --firstcolor: #020C1B;
+            --secondcolor: #D0E1F9;
+        }
+        @font-face {
+            font-family: font;
+            src: url(storage/font.otf),
+                url(storage/font.ttf);
+        }
+        * {
+            font-weight: bolder;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+        *:not(.hwcell) {
+            font-family: font;
+        }
+        body {
+            background-color: var(--firstcolor);
+            height: inherit;
+            overflow: auto;
+            margin: 0;
+        }
+        .navbar {
+            background-color: var(--firstcolor);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            text-align: center;
+            border-bottom: 1px solid var(--secondcolor);
+            color: var(--secondcolor); 
+            display: grid;
+            grid-template-columns: 40% 20% 40%;
+        }
+        .navbar > * {
+            white-space: nowrap;
+        }
+        .bc {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            background-color: var(--secondcolor);
+            border-radius: 10px;
+            padding: 5px;
+            gap: 5px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+        .bt {
+            background-color: var(--firstcolor);
+            color: var(--secondcolor);
+            transition: 0.3s;
+            font-size: 25px;
+            border-radius: 5px;
+            border-width: 2.5px;
+            padding: 5px 25px;
+            text-align: center;
+        }
+        .bt:hover {
+            background-color: var(--firstcolor);
+            color: var(--firstcolor);
+        }
+        .screen {
+            width: 100%;
+        }
+        .hwc {
+            display: grid;
+            grid-template-columns: auto auto;
+            background-color: var(--secondcolor);
+            border-radius: 5px;
+            padding: 5px;
+            gap: 2px;
+        }
+        .calendar {
+            background-color: var(--firstcolor);
+            border-radius: 5px;
+            border-color: var(--secondcolor);
+            border-width: 2px;
+            padding: 5px;
+            gap: 2px;
+            color: var(--secondcolor);
+            font-size: min(7vw, 40px);
+        }
+        .calendar_in {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            background-color: var(--firstcolor);
+            border-radius: 5px;
+            padding: 5px;
+            background-image: linear-gradient(to bottom, var(--firstcolor) 0%, var(--firstcolor) 100%), linear-gradient(to bottom, var(--secondcolor) 0%, var(--secondcolor) 100%);
+            background-clip: content-box, padding-box;
+        }
+        .calendar_in .hwcell:nth-child(1),.calendar_in .hwcell:nth-child(2) {
+            font-family: font;
+        }
+        .hwcell:not(.calendar_in .hwcell:nth-child(1),.calendar_in .hwcell:nth-child(2)) {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
+        }
+        .hwcell {
+            background-color: var(--firstcolor);
+            color: var(--secondcolor);
+            transition: 0.3s;
+            font-size: 20px;
+            border-bottom: 5px solid var(--secondcolor);
+            padding: 5px;
+            text-align: left;
+        }
+        .hwcell:last-child, .hwcell:nth-last-child(2):nth-child(odd) {
+            border-bottom: none;
+        }
+        .hwcell:nth-child(odd) {
+            border-right: 5px solid var(--secondcolor);
+        }
+        .screen {
+            padding-top: 5px;
+        }
+        #Pic {
+            width: 90%;
+            margin: 5%;
+        }
+        .timeDifference {
+            margin-right: 25px;
+            margin-left: 50px;
+            text-align: center;
+            color: var(--secondcolor);
+            font-size: 1.17em;
+            text-align: end;
+        }
+        .blank{
+            height: 5px;
+            width: 90%;
+            margin: 5%;
+            margin-bottom: none;
+            background-color: var(--secondcolor);
+        }
+        .space{
+            width: 100%;
+            border: 0;
+            margin: 0;
+        }
+        @media only screen and (max-width: 800px) {
+            .bc {
+                grid-template-columns: auto;
+            }
+        }
+        @media only screen and (max-width: 600px) {
+            .navbar {
+                grid-template-columns: auto;
+            }
+            .timeDifference {
+                text-align: center;
+                display: none;
+            }
+        }
+        @media only screen and (max-width: 250px) {
+            .bt {
+                font-size: 15px;
+            }
+        }
+    </style>
+    <title>RB-138 Class 110</title>
+</head>
+<body>
+    <div class='navbar'>
+        <div></div>
+        <h3><a>M.1/10 RB-138</a></h3>
+        <h2 class="timeDifference">--Updated time--</h2>
+    </div>
+    <div class='space' style='height: 58px;'></div>
+    <div class='bc'>
+        <a onclick='Homework_show()' target='_blank' class='bt'>Homework</a>
+        <a onclick='Schedule_show()' target='_blank' class='bt'>Class Schedule</a>
+        <a onclick='Announcement_show()' target='_blank' class='bt'>Announcement</a>
+    </div>
+    <div class='screen' id='screen'></div>
+
+    <script>
+        function Schedule_show() {
+            document.getElementById('screen').innerHTML = "<img src='storage/Schedule.jpg' class='Schedule' id='Pic'>";
+        };
+        
+        function mg(inner) {
+            var div = document.createElement('div');
+            div.className = 'hwcell';
+            div.innerHTML = inner;
+            document.getElementsByClassName('hwc')[0].appendChild(div);
+        };
+        
+        function mg2(inner,position) {
+            var div = document.createElement('div');
+            div.className = 'hwcell';
+            div.innerHTML = inner;
+            document.getElementsByClassName(position)[0].appendChild(div);
+        };
+        
+        function mgjson(file) {
+            fetch(file).then(response => response.json()).then(data => Object.values(data).forEach(value => mg(value)));
+        };
+        
+        function mgjson2(file,position) {
+            fetch(file).then(response => response.json()).then(data => Object.values(data).forEach(value => mg2(value,position)));
+        };
+
+        function Homework_show() {
+            var screen = document.getElementById('screen');
+            screen.innerHTML = '';
+
+            var calendar0 = document.createElement('div');
+            calendar0.className = 'calendar c0';
+            screen.appendChild(calendar0);
+
+            var br = document.createElement('br');
+            screen.appendChild(br);
+
+            var br = document.createElement('br');
+            screen.appendChild(br);
+
+            var br = document.createElement('br');
+            screen.appendChild(br);
+
+            var bl = document.createElement('div');
+            bl.className = 'blank';
+            screen.appendChild(bl);
+
+            var calendar1 = document.createElement('div');
+            calendar1.className = 'calendar c1';
+            screen.appendChild(calendar1);
+
+            var calendar2 = document.createElement('div');
+            calendar2.className = 'calendar c2';
+            screen.appendChild(calendar2);
+
+            var calendar3 = document.createElement('div');
+            calendar3.className = 'calendar c3';
+            screen.appendChild(calendar3);
+
+            var calendar4 = document.createElement('div');
+            calendar4.className = 'calendar c4';
+            screen.appendChild(calendar4);
+
+            var calendar5 = document.createElement('div');
+            calendar5.className = 'calendar c5';
+            screen.appendChild(calendar5);
+
+            document.querySelector('.calendar.c0').innerHTML = '<br><div class="auto-size">Weekly : 20-24/11/2023</div><br><div class="calendar_in i0"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            document.querySelector('.calendar.c1').innerHTML = '<br>Monday 20/11/2023<br><div class="calendar_in i1"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            document.querySelector('.calendar.c2').innerHTML = '<br>Tuesday<br><div class="calendar_in i2"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            document.querySelector('.calendar.c3').innerHTML = '<br>Wednesday<br><div class="calendar_in i3"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            document.querySelector('.calendar.c4').innerHTML = '<br>Thursday<br><div class="calendar_in i4"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            document.querySelector('.calendar.c5').innerHTML = '<br>Friday<br><div class="calendar_in i5"><div class="hwcell">Subject</div><div class="hwcell">Work / Homework</div></div>';
+            mgjson2('storage/homework.json', 'calendar_in i0');
+            mgjson2('storage/mon.json', 'calendar_in i1');
+            mgjson2('storage/tue.json', 'calendar_in i2');
+            mgjson2('storage/wed.json', 'calendar_in i3');
+            mgjson2('storage/thu.json', 'calendar_in i4');
+            mgjson2('storage/fri.json', 'calendar_in i5');
+        };
+
+        
+        function Announcement_show() {
+            document.getElementById('screen').innerHTML = '<div class="hwc"></div>';
+            mgjson('storage/announcement.json');
+        };
+
+        function updateTimeDifference() {
+            const inputDate = new Date('2023-07-01T08:33:44');
+            const currentUtcDate = new Date().toUTCString();
+            const currentTime = new Date(currentUtcDate).getTime();
+            const inputTime = inputDate.getTime();
+            const timeDifference = currentTime - inputTime;
+            
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const weeks = Math.floor(days / 7);
+            const months = Math.floor(days / 30.44);
+            const years = Math.floor(days / 365.25);
+            
+            let label;
+            if (seconds < 60) {
+                label = `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+            } else if (minutes < 60) {
+                label = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+            } else if (hours < 24) {
+                label = `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+            } else if (days < 7) {
+                label = `${days} day${days !== 1 ? 's' : ''} ago`;
+            } else if (weeks < 5) {
+                label = `${weeks} week${weeks !== 1 ? 's' : ''} ago`;
+            } else if (months < 12) {
+                label = `${months} month${months !== 1 ? 's' : ''} ago`;
+            } else {
+                label = `${years} year${years !== 1 ? 's' : ''} ago`;
+            }
+            label = 'Updated ' + label
+            document.getElementsByClassName('timeDifference')[0].innerHTML = label;
+            }
+        updateTimeDifference()
+        setInterval(updateTimeDifference, 1000);
+    </script>
+</body>
+</html>
