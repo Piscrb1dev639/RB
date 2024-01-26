@@ -124,13 +124,20 @@
             width: 90%;
             margin: 5%;
         }
-        .timeDifference {
-            margin-right: 25px;
-            margin-left: 50px;
+        .timeDifference,.credit {
             text-align: center;
             color: var(--secondcolor);
             font-size: 1.17em;
+        }
+        .timeDifference{
+            margin-right: 25px;
+            margin-left: 50px;
             text-align: end;
+        }
+        .credit{
+            margin-right: 50px;
+            margin-left: 25px;
+            text-align: start;
         }
         .blank{
             height: 5px;
@@ -153,7 +160,7 @@
             .navbar {
                 grid-template-columns: auto;
             }
-            .timeDifference {
+            .timeDifference,.credit {
                 text-align: center;
                 display: none;
             }
@@ -168,7 +175,7 @@
 </head>
 <body>
     <div class='navbar'>
-        <div></div>
+        <h2 class="credit">By Pisc</h2>
         <h3><a>M.1/10 RB-138</a></h3>
         <h2 class="timeDifference">--Updated time--</h2>
     </div>
